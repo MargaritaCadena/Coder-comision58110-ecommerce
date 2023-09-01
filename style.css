@@ -18,13 +18,15 @@ header {
     height: 100%;
 }
 
-main {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-
 .navBar {
     padding: 20px;
     background-color: rgb(244, 217, 183);
+    
+}
+
+.tarjeta {
+    display: flex;
+    background-color: rgba(189, 148, 98, 0.324);
+    width: 150px;
+    height: 100px;
 }
