@@ -10,23 +10,37 @@ body{
 }
 
 header {
-    padding: 130px;
     background-image: url(./images/foto-portada.jpg);
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fdcba6;
     width: 100%;
-    height: 100%;
+    height: 320px;
+    display: flex;
+    align-items: flex-end;
 }
 
 .navBar {
-    padding: 20px;
-    background-color: rgb(244, 217, 183);
-    
+    height: 20px;
 }
 
-.tarjeta {
+
+#productos{
     display: flex;
-    background-color: rgba(189, 148, 98, 0.324);
-    width: 150px;
-    height: 100px;
+    margin:40px 30px 50px 30px;
+    flex-wrap: wrap;
+}
+
+
+.tarjeta{
+    padding: 1%;
+    border: black solid 1px;
+}
+img {
+    width: 125px;
+}
+
+h2{
+    font-style: italic;
 }
