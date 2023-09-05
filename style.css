@@ -26,7 +26,7 @@ header {
 }
 
 
-#productos{
+#tienda{
     display: flex;
     margin:40px 30px 50px 30px;
     flex-wrap: wrap;
@@ -43,4 +43,8 @@ img {
 
 h2{
     font-style: italic;
+}
+
+ul{
+    font-family: cursive;
 }
