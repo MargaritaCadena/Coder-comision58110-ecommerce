@@ -2,6 +2,7 @@
 
 //Función que muestra una tarjeta para cada producto
 function mostrarTarjetas(productosArray) {
+        
     limpiarTarjetas()
 
     productosArray.forEach(producto => {
@@ -11,9 +12,19 @@ function mostrarTarjetas(productosArray) {
             <img src="./images/${producto.imagen}"/>
             <h2>${producto.nombre}</h2>
             <p>Precio: $${producto.precio}</p>
-            <button id="botonAgregar">Agregar al carrito</button>`
+            <button id="${producto.id}">Agregar al carrito</button>`
         tienda.appendChild(tarjetaProducto)
+
+        let botonAgregar = document.getElementById(producto.id)
+        botonAgregar.addEventListener("click", () => {guardarProducto(producto)})
     })
+}
+
+//Función que guarda las tarjetas seleccionadas por el usuario
+function guardarProducto(producto) {
+    console.log(producto)
+    productosCarrito.push(producto)
+    console.log(productosCarrito)
 }
 
 //Función que quita las tarjetas que ya están, agrega el HTML para el cambio del filtro y filtra.
@@ -56,14 +67,25 @@ function mostrarFiltro() {
     botonFiltrar.addEventListener("click", filtrarProductos)
 
     botonBusquedaAnterior = document.getElementById("botonBusquedaAnterior")
-    botonBusquedaAnterior.addEventListener("click", mostrarBusquedaAnterior)
+    if (botonBusquedaAnterior) {
+        botonBusquedaAnterior.addEventListener("click", mostrarBusquedaAnterior)
+    }
 }
 
 //Función que borra las tarjetas de la tienda
 function limpiarTarjetas() {
+    console.log("limpiarTarjetas")
     while (tienda.firstChild) {
         tienda.removeChild(tienda.firstChild);
     }
+}
+
+//Función que muestra el carrito de compras 
+function mostrarCarrito() {
+    limpiarTarjetas()
+    console.log(productosCarrito)
+    //ahora mostrar tarjetas guardadas en el carrito 
+    mostrarTarjetas(productosCarrito)
 }
 
 //Productos de la tienda: 
@@ -83,11 +105,23 @@ let totalProductos = [
     { id: "kit2", nombre: "Kit perro", stock: 3, precio: 120000, imagen: "kit2.jpg"},
     { id: "kit3", nombre: "Kit perro", stock: 6, precio: 110000, imagen: "kit3.jpg"}
 ]
+let productosCarrito = []
 let tienda = document.getElementById("tienda")
 let botonFiltrarProductos = document.getElementById("botonFiltrarProductos")
+let botonPrincipal = document.getElementById("botonInicio")
 
 mostrarTarjetas(totalProductos)
 
-//Agregando eventos: 1. Filtrar 
+
+//Agregando eventos: Filtrar 
 botonFiltrarProductos.addEventListener("click", mostrarFiltro)
+
+//Agregando evento al botón de inicio 
+botonPrincipal.onclick = () => {
+    mostrarTarjetas(totalProductos)
+}
+
+// Carrito de compras 
+botonCarritoCompras.addEventListener("click", mostrarCarrito)
+
 
