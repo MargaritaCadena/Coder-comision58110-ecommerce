@@ -22,14 +22,27 @@ function mostrarTarjetas(productosArray) {
 
 //Función que guarda las tarjetas seleccionadas por el usuario
 function guardarProducto(producto) {
+    Swal.fire({
+        title: 'Producto Agregado al Carrito',
+        icon: 'success'
+    })
     console.log(producto)
     productosCarrito.push(producto)
-    console.log(productosCarrito)
 }
 
 //Función que quita las tarjetas que ya están, agrega el HTML para el cambio del filtro y filtra.
 function mostrarFiltro() {
     function filtrarProductos() {
+        //Muestra la notificación de inicio del filtro con toastify
+        Toastify({
+            text: "Filtrando productos",
+            duration: 3000, 
+            position: "center",
+            style:{
+                background: "linear-gradient(to right, #b056ac, #b056ac)"
+            }
+        }).showToast();
+
         let inputFiltro = document.getElementById("inputFiltro")
         let resultado = totalProductos.filter(
             (producto)=> {
@@ -74,18 +87,46 @@ function mostrarFiltro() {
 
 //Función que borra las tarjetas de la tienda
 function limpiarTarjetas() {
-    console.log("limpiarTarjetas")
     while (tienda.firstChild) {
         tienda.removeChild(tienda.firstChild);
     }
 }
 
+// Función que muestra las tarjetas en el carrito de compras. 
+function mostrarTarjetasCarrito(productosArray) {
+    productosArray.forEach(producto => {
+        let tarjetaProducto = document.createElement("div")
+        tarjetaProducto.className = "tarjeta"
+        tarjetaProducto.innerHTML = `
+            <img src="./images/${producto.imagen}"/>
+            <h2>${producto.nombre}</h2>
+            <p>Precio: $${producto.precio}</p>`
+        tienda.appendChild(tarjetaProducto)
+    })
+    let elementoFinalizarCompra = document.createElement("div")
+    elementoFinalizarCompra.innerHTML= `<button id="botonFinalizarCompra">Finalizar Compra</button>`
+    tienda.appendChild(elementoFinalizarCompra)
+
+    let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
+    botonFinalizarCompra.addEventListener("click", finalizarCompra)
+    }
+
 //Función que muestra el carrito de compras 
 function mostrarCarrito() {
     limpiarTarjetas()
-    console.log(productosCarrito)
     //ahora mostrar tarjetas guardadas en el carrito 
-    mostrarTarjetas(productosCarrito)
+    mostrarTarjetasCarrito(productosCarrito)
+    //let finalizarCompra = document.createElement 
+}
+
+//Función que finaliza la compra 
+function finalizarCompra(){
+    limpiarTarjetas()
+    Swal.fire({
+        title:'Compra finalizada',
+        text: 'Gracias por tu compra',
+        icon: 'info'
+        })
 }
 
 //Productos de la tienda: 
@@ -112,7 +153,6 @@ let botonPrincipal = document.getElementById("botonInicio")
 
 mostrarTarjetas(totalProductos)
 
-
 //Agregando eventos: Filtrar 
 botonFiltrarProductos.addEventListener("click", mostrarFiltro)
 
@@ -123,5 +163,6 @@ botonPrincipal.onclick = () => {
 
 // Carrito de compras 
 botonCarritoCompras.addEventListener("click", mostrarCarrito)
+
 
 
