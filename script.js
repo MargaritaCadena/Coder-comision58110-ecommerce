@@ -26,7 +26,6 @@ function guardarProducto(producto) {
         title: 'Producto Agregado al Carrito',
         icon: 'success'
     })
-    console.log(producto)
     productosCarrito.push(producto)
 }
 
@@ -51,7 +50,6 @@ function mostrarFiltro() {
         )
 
         sessionStorage.setItem("ultimaBusqueda", JSON.stringify(resultado));
-        
         mostrarTarjetas(resultado)
     }
     function mostrarBusquedaAnterior() {
