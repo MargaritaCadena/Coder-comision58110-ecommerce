@@ -2,7 +2,7 @@
 
 //Función que muestra una tarjeta para cada producto
 function mostrarTarjetas(productosArray) {
-        
+
     limpiarTarjetas()
 
     productosArray.forEach(producto => {
@@ -16,7 +16,7 @@ function mostrarTarjetas(productosArray) {
         tienda.appendChild(tarjetaProducto)
 
         let botonAgregar = document.getElementById(producto.id)
-        botonAgregar.addEventListener("click", () => {guardarProducto(producto)})
+        botonAgregar.addEventListener("click", () => { guardarProducto(producto) })
     })
 }
 
@@ -35,16 +35,16 @@ function mostrarFiltro() {
         //Muestra la notificación de inicio del filtro con toastify
         Toastify({
             text: "Filtrando productos",
-            duration: 3000, 
+            duration: 3000,
             position: "center",
-            style:{
+            style: {
                 background: "linear-gradient(to right, #b056ac, #b056ac)"
             }
         }).showToast();
 
         let inputFiltro = document.getElementById("inputFiltro")
         let resultado = totalProductos.filter(
-            (producto)=> {
+            (producto) => {
                 return producto.nombre === inputFiltro.value
             }
         )
@@ -102,12 +102,12 @@ function mostrarTarjetasCarrito(productosArray) {
         tienda.appendChild(tarjetaProducto)
     })
     let elementoFinalizarCompra = document.createElement("div")
-    elementoFinalizarCompra.innerHTML= `<button id="botonFinalizarCompra">Finalizar Compra</button>`
+    elementoFinalizarCompra.innerHTML = `<button id="botonFinalizarCompra">Finalizar Compra</button>`
     tienda.appendChild(elementoFinalizarCompra)
 
     let botonFinalizarCompra = document.getElementById("botonFinalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarCompra)
-    }
+}
 
 //Función que muestra el carrito de compras 
 function mostrarCarrito() {
@@ -118,49 +118,61 @@ function mostrarCarrito() {
 }
 
 //Función que finaliza la compra 
-function finalizarCompra(){
+function finalizarCompra() {
     limpiarTarjetas()
     Swal.fire({
-        title:'Compra finalizada',
+        title: 'Compra finalizada',
         text: 'Gracias por tu compra',
         icon: 'info'
-        })
+    })
 }
 
-//Productos de la tienda: 
-let totalProductos = [
-    { id: "cama1", nombre: "cama", stock: 3, precio: 50000, imagen: "cama.jpg"},
-    { id: "cama2", nombre: "cama", stock: 5, precio: 60000, imagen: "cama2.jpg"},
-    { id: "cama3", nombre: "cama", stock: 10, precio: 40000, imagen: "cama3.jpg"},
-    { id: "collar1", nombre: "collar", stock: 9, precio: 30000, imagen: "collar-corbatin.jpg"},
-    { id: "collar2", nombre: "collar", stock: 8, precio: 60000, imagen: "collar-rojo.jpeg"},
-    { id: "comedero1", nombre: "comedero", stock: 7, precio: 90000, imagen: "comedero1.jpg"},
-    { id: "comedero2", nombre: "comedero", stock: 5, precio: 70000, imagen: "comedero2.jpg"},
-    { id: "comedero3", nombre: "comedero", stock: 7, precio: 100000, imagen: "comedero3.jpg"},
-    { id: "aro", nombre: "juguete", stock: 7, precio: 30000, imagen: "juguete-aro.jpg"},
-    { id: "hueso", nombre: "juguete", stock: 8, precio: 20000, imagen: "juguete-hueso.jpg"},
-    { id: "pelota", nombre: "juguete", stock: 6, precio: 30000, imagen: "juguete-pelota.jpg"},
-    { id: "kit1", nombre: "Kit perro", stock: 4, precio: 150000, imagen: "kit1.jpg"},
-    { id: "kit2", nombre: "Kit perro", stock: 3, precio: 120000, imagen: "kit2.jpg"},
-    { id: "kit3", nombre: "Kit perro", stock: 6, precio: 110000, imagen: "kit3.jpg"}
-]
-let productosCarrito = []
-let tienda = document.getElementById("tienda")
-let botonFiltrarProductos = document.getElementById("botonFiltrarProductos")
-let botonPrincipal = document.getElementById("botonInicio")
+//Función principal 
+function main(arrayProductos) {
+    //Productos de la tienda: 
+    totalProductos = arrayProductos
+    productosCarrito = []
+    tienda = document.getElementById("tienda")
+    let botonFiltrarProductos = document.getElementById("botonFiltrarProductos")
+    let botonPrincipal = document.getElementById("botonInicio")
 
-mostrarTarjetas(totalProductos)
-
-//Agregando eventos: Filtrar 
-botonFiltrarProductos.addEventListener("click", mostrarFiltro)
-
-//Agregando evento al botón de inicio 
-botonPrincipal.onclick = () => {
     mostrarTarjetas(totalProductos)
+
+    //Agregando eventos: Filtrar 
+    botonFiltrarProductos.addEventListener("click", mostrarFiltro)
+
+    //Agregando evento al botón de inicio 
+    botonPrincipal.onclick = () => {
+        mostrarTarjetas(totalProductos)
+    }
+
+    // Carrito de compras 
+    botonCarritoCompras.addEventListener("click", mostrarCarrito)
 }
 
-// Carrito de compras 
-botonCarritoCompras.addEventListener("click", mostrarCarrito)
+//Variables 
+let totalProductos
+let productosCarrito
+let tienda
+
+// Uso de Fetch 
+fetch("./data.json")
+    .then(respuesta => respuesta.json())
+    .then(productos => {
+        main(productos)
+    })
+    .catch(error => {
+        Toastify({
+            text: "Ups hubo un error",
+            duration: 3000,
+            position: "center",
+            style: {
+                background: "linear-gradient(to right, #b056ac, #b056ac)"
+            }
+        }).showToast();
+    })
+
+
 
 
 
